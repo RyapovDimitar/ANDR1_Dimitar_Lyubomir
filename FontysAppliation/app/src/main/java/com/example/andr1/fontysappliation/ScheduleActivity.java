@@ -1,16 +1,26 @@
 package com.example.andr1.fontysappliation;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by az on 19.2.2017 г..
+ */
 
+public class ScheduleActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
@@ -22,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_grades:
                 showMsg("Grades selected");
-                /*
-                Intent myIntent = new Intent(MainActivity.this,
-                        ScheduleActivity.class);
+                Intent myIntent = new Intent(ScheduleActivity.this,
+                        MainActivity.class);
                 startActivity(myIntent);
-                */
                 return true;
             case R.id.menu_schedule:
                 showMsg("Schedule selected");
@@ -37,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showMsg(String msg) {
-        Toast toast = Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(ScheduleActivity.this, msg, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.BOTTOM, toast.getXOffset() / 2, toast.getYOffset() / 2);
         toast.show();
     }
