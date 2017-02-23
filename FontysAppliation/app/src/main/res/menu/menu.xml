@@ -14,4 +14,9 @@
         android:title="Grades"
         android:layout_height="32dp"
         android:layout_width="match_parent"/>
+
+    <item android:id="@+id/menu_main_menu"
+        android:title="Main Menu"
+        android:layout_height="32dp"
+        android:layout_width="match_parent"/>
 </menu>

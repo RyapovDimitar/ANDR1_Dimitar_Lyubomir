@@ -22,14 +22,21 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_grades:
                 showMsg("Grades selected");
-                /*
-                Intent myIntent = new Intent(MainActivity.this,
-                        ScheduleActivity.class);
-                startActivity(myIntent);
-                */
+                Intent gradesIntent = new Intent(MainActivity.this,
+                        GradesActivity.class);
+                startActivity(gradesIntent);
                 return true;
             case R.id.menu_schedule:
                 showMsg("Schedule selected");
+                Intent scheduleIntent = new Intent(MainActivity.this,
+                        GradesActivity.class);
+                startActivity(scheduleIntent);
+                return true;
+            case R.id.menu_main_menu:
+                showMsg("Schedule selected");
+                Intent mainMenuIntent = new Intent(MainActivity.this,
+                        MainActivity.class);
+                startActivity(mainMenuIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
