@@ -26,6 +26,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:onClick="Exit"
         android:longClickable="true"
+
         android:clickable="true" />
 </RelativeLayout>

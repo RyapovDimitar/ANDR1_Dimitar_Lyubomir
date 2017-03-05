@@ -20,6 +20,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import static com.example.andr1.fontysappliation.R.id.btnExit;
 import static com.example.andr1.fontysappliation.R.styleable.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void Exit(View v){
+       finish();
+        moveTaskToBack(true);
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
