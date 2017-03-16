@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_schedule:
                 showMsg("Schedule selected");
                 Intent scheduleIntent = new Intent(MainActivity.this,
-                        GradesActivity.class);
+                        ScheduleActivity.class);
                 startActivity(scheduleIntent);
                 return true;
             case R.id.menu_main_menu:
