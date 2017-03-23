@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
+import android.util.JsonToken;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -20,6 +21,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by az on 19.2.2017 г..
@@ -42,7 +45,7 @@ implements  TokenFragment.OnFragmentInteractionListener{
     public void onFragmentInteraction(String token) {
         AsyncSchedule2 task = new AsyncSchedule2(this);
         task.execute(token);
-        showMsg(token);
+        //showMsg(token);
     }
 
     public void showMsg(String msg) {
@@ -74,14 +77,14 @@ implements  TokenFragment.OnFragmentInteractionListener{
     }
 }
 
-class AsyncSchedule2 extends AsyncTask<String, Void, String> {
+class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
 
     private ScheduleActivity a;
     protected AsyncSchedule2(ScheduleActivity act){
         a=act;
     }
     @Override
-    protected String doInBackground(String... params) {
+    protected List<ScheduleElement> doInBackground(String... params) {
         String myString = params[0];
         try {
             URL url = new URL("https://api.fhict.nl/schedule/me");
@@ -92,19 +95,55 @@ class AsyncSchedule2 extends AsyncTask<String, Void, String> {
             InputStream is = connection.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             JsonReader jsonReader = new JsonReader(isr);
-            return "sucess";
+            return this.readScheduleArray(jsonReader);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return myString;
+        return null;
     }
 
+    public List<ScheduleElement> readScheduleArray(JsonReader jsonReader) throws IOException {
+        List<ScheduleElement> scheduleElements = new ArrayList<ScheduleElement>();
+        if(jsonReader.peek() == JsonToken.BEGIN_OBJECT){
+            jsonReader.beginObject();
+            while (jsonReader.hasNext()) {
+                String name = jsonReader.nextName();
+                if (name.equals("data")&&(jsonReader.peek() == JsonToken.BEGIN_ARRAY)) {
+                    ScheduleElement se = new ScheduleElement();
+                    jsonReader.beginArray();
+                    while (jsonReader.hasNext()){
+                        if(jsonReader.peek()==JsonToken.BEGIN_OBJECT){
+
+                    jsonReader.beginObject();
+                    while (jsonReader.hasNext()) {
+                        String name2 = jsonReader.nextName();
+                        if (name2.equals("room")&&(jsonReader.peek()==JsonToken.STRING)) {
+                            se.room = jsonReader.nextString();
+                        } else if (name2.equals("subject")&&(jsonReader.peek()==JsonToken.STRING)) {
+                            se.subject = jsonReader.nextString();
+                        }
+                        else{
+                            jsonReader.skipValue();
+                        }
+                    }
+                            jsonReader.endObject();
+                    scheduleElements.add(se);
+
+                        }
+                    }
+                    jsonReader.endArray();
+                }
+                else{
+                    jsonReader.skipValue();
+                }
+            }
+            jsonReader.endObject();}
+        return scheduleElements;
+    }
     @Override
-    protected void onPostExecute(String result){
-        //super.onPostExecute(result);
-        a.showMsg(result);
-        //Log.d("tokenRes", result);
+    protected void onPostExecute(List<ScheduleElement> result){
+        super.onPostExecute(result);
     }
 }
