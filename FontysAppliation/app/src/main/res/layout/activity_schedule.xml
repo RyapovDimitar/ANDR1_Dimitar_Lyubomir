@@ -8,4 +8,10 @@
         android:layout_height="wrap_content"
         android:name="com.example.andr1.fontysappliation.TokenFragment"
         android:id="@+id/fragment" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

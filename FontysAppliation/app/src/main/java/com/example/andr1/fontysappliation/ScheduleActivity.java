@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +35,8 @@ import java.util.List;
 
 public class ScheduleActivity extends AppCompatActivity
 implements  TokenFragment.OnFragmentInteractionListener{
+
+    private ListView lv;
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
@@ -41,6 +48,12 @@ implements  TokenFragment.OnFragmentInteractionListener{
         setContentView(R.layout.activity_schedule);
     }
 
+    public void setData(List<ScheduleElement> se){
+        lv = (ListView) findViewById(R.id.listView);
+        DataListAdapter dataListAdapter = new DataListAdapter(getApplicationContext(),
+                se.toArray(new ScheduleElement[se.size()]));
+        lv.setAdapter(dataListAdapter);
+    }
     @Override
     public void onFragmentInteraction(String token) {
         AsyncSchedule2 task = new AsyncSchedule2(this);
@@ -100,18 +113,21 @@ class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public List<ScheduleElement> readScheduleArray(JsonReader jsonReader) throws IOException {
+    public List<ScheduleElement> readScheduleArray(JsonReader jsonReader) throws IOException, ParseException {
         List<ScheduleElement> scheduleElements = new ArrayList<ScheduleElement>();
         if(jsonReader.peek() == JsonToken.BEGIN_OBJECT){
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
                 String name = jsonReader.nextName();
+                ScheduleElement se = new ScheduleElement();
                 if (name.equals("data")&&(jsonReader.peek() == JsonToken.BEGIN_ARRAY)) {
-                    ScheduleElement se = new ScheduleElement();
+
                     jsonReader.beginArray();
                     while (jsonReader.hasNext()){
                         if(jsonReader.peek()==JsonToken.BEGIN_OBJECT){
@@ -123,13 +139,17 @@ class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
                             se.room = jsonReader.nextString();
                         } else if (name2.equals("subject")&&(jsonReader.peek()==JsonToken.STRING)) {
                             se.subject = jsonReader.nextString();
+                        } else if(name2.equals("start")&&(jsonReader.peek()==JsonToken.STRING)){
+                            se.start = jsonReader.nextString();
+                        } else if(name2.equals("end")&&(jsonReader.peek()==JsonToken.STRING)){
+                            se.end = jsonReader.nextString();
                         }
                         else{
                             jsonReader.skipValue();
                         }
                     }
                             jsonReader.endObject();
-                    scheduleElements.add(se);
+                    scheduleElements.add(new ScheduleElement(se.room, se.subject, se.start, se.end));
 
                         }
                     }
@@ -140,10 +160,13 @@ class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
                 }
             }
             jsonReader.endObject();}
+
         return scheduleElements;
     }
+
     @Override
     protected void onPostExecute(List<ScheduleElement> result){
-        super.onPostExecute(result);
+        //super.onPostExecute(result);
+        a.setData(result);
     }
 }
