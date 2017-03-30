@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class ScheduleElement {
+    public Date starrt;
     public String room;
     public String subject;
     public String start;

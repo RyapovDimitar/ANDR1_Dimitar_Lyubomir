@@ -92,6 +92,24 @@ implements  TokenFragment.OnFragmentInteractionListener{
 }
 
 class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
+    public static String getDate(String origingDate, String fromFormat, String toFormat){
+
+        final DateFormat fromDateFormat = new SimpleDateFormat(fromFormat);
+        fromDateFormat.setLenient(false);
+
+        DateFormat toDateFormat = new SimpleDateFormat(toFormat);
+        toDateFormat.setLenient(false);
+
+        try {
+            Date date = fromDateFormat.parse(origingDate);
+            return toDateFormat.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     /*
     private Date stringToDate(String aDate) {
 
@@ -151,9 +169,9 @@ class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
                         } else if (name2.equals("subject")&&(jsonReader.peek()==JsonToken.STRING)) {
                             se.subject = jsonReader.nextString();
                         } else if(name2.equals("start")&&(jsonReader.peek()==JsonToken.STRING)){
-                            se.start = jsonReader.nextString();
+                            se.start = Utils.getDate(jsonReader.nextString(), Utils.FROM_SCHEDULE_DATE_FORMAT, "hh:mm:ss");
                         } else if(name2.equals("end")&&(jsonReader.peek()==JsonToken.STRING)){
-                            se.end = jsonReader.nextString();
+                            se.end = Utils.getDate(jsonReader.nextString(), Utils.FROM_SCHEDULE_DATE_FORMAT, "hh:mm:ss");
                         }
                         else{
                             jsonReader.skipValue();
