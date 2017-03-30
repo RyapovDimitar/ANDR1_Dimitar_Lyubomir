@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by az on 23.2.2017 г..
+ * Created by avvett on 5-7-2016.
  */
 
 public class GradesActivity extends MainActivity implements  TokenFragment.OnFragmentInteractionListener{
@@ -124,7 +124,7 @@ class AsyncGrades extends AsyncTask<String, Void, List<GradesElement>> {
                                     if (name2.equals("itemCode")&&(jsonReader.peek()==JsonToken.STRING)) {
                                         se.itemCode = jsonReader.nextString();
                                     } else if (name2.equals("date")&&(jsonReader.peek()==JsonToken.STRING)) {
-                                        se.date = jsonReader.nextString();
+                                        se.date = Utils.getDate(jsonReader.nextString(), Utils.FROM_GRADE_DATE_FORMAT, "yyyy-MM-dd");
                                     } else if(name2.equals("grade")&&(jsonReader.peek()==JsonToken.NUMBER)){
                                         se.grade = jsonReader.nextDouble()+"";
                                     }
