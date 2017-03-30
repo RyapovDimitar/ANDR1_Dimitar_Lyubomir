@@ -65,14 +65,16 @@ public class DataListAdapter extends BaseAdapter {
         // retrieve TextView with the id 'textView4'
         TextView tvSubject = (TextView) convertView.findViewById(R.id.textView5);
         TextView tvRoom = (TextView) convertView.findViewById(R.id.textView4);
-        TextView tvStart = (TextView) convertView.findViewById(R.id.textView6);
+        TextView tvStart = (TextView) convertView.findViewById(R.id.textView7);
+        TextView tvEnd = (TextView) convertView.findViewById(R.id.textView6);
 
         tvSubject.setText(getItem(position).subject);
 
         // get the appropriate data from the array using position index
         // and set it to tvName TextView
         tvRoom.setText(getItem(position).room);
-        tvStart.setText(getItem(position).start.toString());
+        tvStart.setText(getItem(position).start);
+        tvEnd.setText(getItem(position).end);
         //tvSubject.setText(getItem(position).room);
 
         // return the view

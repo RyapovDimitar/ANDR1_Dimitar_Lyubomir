@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,7 +92,17 @@ implements  TokenFragment.OnFragmentInteractionListener{
 }
 
 class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
+    /*
+    private Date stringToDate(String aDate) {
 
+        if(aDate==null) return null;
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-ddThh:mm:ss");
+        Date stringDate = simpledateformat.parse(aDate, pos);
+        return stringDate;
+
+    }
+    */
     private ScheduleActivity a;
     protected AsyncSchedule2(ScheduleActivity act){
         a=act;
