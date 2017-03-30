@@ -1,6 +1,7 @@
 package com.example.andr1.fontysappliation;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,14 @@ public class DataListAdapterGrades extends BaseAdapter {
         // and set it to tvName TextView
         tvItemCode.setText(getItem(position).itemCode);
         tvGrade.setText(getItem(position).grade);
+        double grade = Double.parseDouble(getItem(position).grade);
+        if(grade>=5.5){
+            tvGrade.setTextColor(Color.GREEN);
+        }
+        else{
+            tvGrade.setTextColor(Color.RED);
+        }
+
         //tvSubject.setText(getItem(position).room);
 
         // return the view

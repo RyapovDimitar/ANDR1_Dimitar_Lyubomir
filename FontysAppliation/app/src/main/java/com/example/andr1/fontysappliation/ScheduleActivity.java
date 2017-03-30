@@ -171,7 +171,7 @@ class AsyncSchedule2 extends AsyncTask<String, Void, List<ScheduleElement>> {
                         } else if(name2.equals("start")&&(jsonReader.peek()==JsonToken.STRING)){
                             se.start = Utils.getDate(jsonReader.nextString(), Utils.FROM_SCHEDULE_DATE_FORMAT, "dd-MM hh:mm:ss");
                         } else if(name2.equals("end")&&(jsonReader.peek()==JsonToken.STRING)){
-                            se.end = Utils.getDate(jsonReader.nextString(), Utils.FROM_SCHEDULE_DATE_FORMAT, "dd-MM hh:mm:ss");
+                            se.end = Utils.getDate(jsonReader.nextString(), Utils.FROM_SCHEDULE_DATE_FORMAT, "hh:mm:ss");
                         }
                         else{
                             jsonReader.skipValue();
